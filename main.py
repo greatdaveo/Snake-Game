@@ -5,7 +5,7 @@ from food import Food
 from scoreboard import Scoreboard
 
 screen = Screen()
-screen.setup(width=600, height=600)
+screen.setup(width=520, height=550)
 screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
@@ -23,6 +23,7 @@ screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
 game_is_on = True
+
 while game_is_on:
     screen.update()
     time.sleep(0.1)
@@ -31,6 +32,12 @@ while game_is_on:
     # To Detect the collision of the snake and food
     if snake.snake_head.distance(food) < 15:
         food.refresh()
+        snake.extend_snake_size()
         scoreboard.increase_score()
+
+   # To detect collision with the wall
+    if snake.snake_head.xcor() > 250 or snake.snake_head.xcor() < -280 or snake.snake_head.ycor() > 250 or snake.snake_head.ycor() < -240:
+        game_is_on = False
+        scoreboard.gave_over()
 
 screen.exitonclick()
